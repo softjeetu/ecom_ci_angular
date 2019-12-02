@@ -3,11 +3,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*	
- *	@author : Md. Moinuddin Kadir , Joyonto Roy
- *	date	: 10 December, 2013
- *	University Of Dhaka, Bangladesh
- *	Bijoy Stock Inventory Manager Pro
- *	http://codecanyon.net/user/tanvirdu
+ *	@author : Jitendra
+ *	date	: 01 December, 2019
+ *	https://github.com/softjeetu/ecom_ci_angular
  */
 
 

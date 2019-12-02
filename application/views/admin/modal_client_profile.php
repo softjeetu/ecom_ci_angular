@@ -36,24 +36,6 @@ foreach($client_info as $row):?>
 				<td><b><?php echo $row['creation_date'];?></b></td>
 			</tr>
 			<?php endif;?>	
-	
-
-
-			<?php if($row['about'] != ''):?>
-			<tr>
-				<td><?php echo get_phrase('about');?></td>
-				<td><b><?php echo $row['about'];?></b></td>
-			</tr>
-			<?php endif;?>	
-
-
-			<?php if($row['address'] != ''):?>
-			<tr>
-				<td><?php echo get_phrase('address');?></td>
-				<td><b><?php echo $row['address'];?></b></td>
-			</tr>
-			<?php endif;?>	
-
 
 			<?php if($row['phone'] != ''):?>
 			<tr>
@@ -62,21 +44,7 @@ foreach($client_info as $row):?>
 			</tr>
 			<?php endif;?>	
 
-
-			<?php if($row['store'] != ''):?>
-			<tr>
-				<td><?php echo get_phrase('store');?></td>
-				<td><b><?php echo $row['store'];?></b></td>
-			</tr>
-			<?php endif;?>	
-
-
-			<?php if($row['group'] != ''):?>
-			<tr>
-				<td><?php echo get_phrase('group');?></td>
-				<td><b><?php echo $this->crud_model->get_type_name_by_id('group',$row['group']);?></b></td>
-			</tr>
-			<?php endif;?>	
+			
 
 
         	

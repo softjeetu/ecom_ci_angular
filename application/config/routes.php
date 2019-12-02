@@ -44,7 +44,7 @@
 |	after logination is completed successfully, the default controller will be 'login'
 */
 
-$route['default_controller'] = "login";
+$route['default_controller'] = "front/home";
 $route['404_override'] = 'login/four_zero_four';
 
 

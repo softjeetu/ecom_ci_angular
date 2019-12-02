@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2019 at 04:40 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Generation Time: Dec 02, 2019 at 02:23 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -59,8 +61,8 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`category_id`, `name`, `about`) VALUES
 (1, 'Games', 'Games'),
-(2, 'Movies', 'Movies'),
-(3, 'Electronics', 'Electronics');
+(2, 'Laptop', 'Laptop'),
+(3, 'Mobile', 'Mobile');
 
 -- --------------------------------------------------------
 
@@ -281,7 +283,10 @@ INSERT INTO `language` (`phrase_id`, `phrase`, `english`) VALUES
 (195, 'phrase', 'phrase'),
 (196, 'update_phrase', 'update phrase'),
 (210, 'delete_language', 'Delete Language'),
-(211, 'login_failed', 'login failed');
+(211, 'login_failed', 'login failed'),
+(215, 'image', ''),
+(216, 'product_image', ''),
+(217, 'home', '');
 
 -- --------------------------------------------------------
 
@@ -314,15 +319,20 @@ CREATE TABLE `product` (
   `creation_date` longtext COLLATE utf8_unicode_ci NOT NULL,
   `quantity` longtext COLLATE utf8_unicode_ci NOT NULL,
   `quantity_unit` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `price` longtext COLLATE utf8_unicode_ci NOT NULL
+  `price` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `product_image` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `category`, `name`, `description`, `creation_date`, `quantity`, `quantity_unit`, `price`) VALUES
-(1, '3', 'Mouse', 'Optical Mouse wired', '2019-12-18', '0', '1000', '2');
+INSERT INTO `product` (`product_id`, `category`, `name`, `description`, `creation_date`, `quantity`, `quantity_unit`, `price`, `product_image`) VALUES
+(1, '3', 'Mouse', 'Optical Mouse wired', '2019-12-02', '0', '1000', '2', 'http://localhost/php/ecom_ci_angular/uploads/product_image/jim-corbett-tiger-national-park.jpg'),
+(2, '3', 'iPhone 6s Plus 16GB', 'Innovation isn’t always obvious to the eye, but look a little closer at iPhone 6s and you’ll find it’s been fundamentally improved. The enclosure is made from a new alloy of 7000 Series aluminum — the same grade used in the aerospace industry. The cover glass is the strongest, most durable glass used in any smartphone. And a new rose gold finish joins space gray, silver, and gold.', '2019-12-02', '0', '1000', '600', 'http://localhost/php/ecom_ci_angular/uploads/product_image/product-iphone-6s-plus.png'),
+(3, '3', 'Apple iPad Pro 32 GB 9.7 inch with Wi-Fi Only', '9.7 Retina display for stunning details 32 GB ROM can store upto 8000 photos 2 GB RAM | 32 GB ROM 24.64 cm (9.7 inch) Display 12 MP Primary Camera | 5 MP Front iOS 10 | Battery: Lithium Polymer Processor: A9X Chip 64-bit, Embedded M9 Co-processor', '2019-12-02', '0', '1000', '514', 'http://localhost/php/ecom_ci_angular/uploads/product_image/apple-mlmn2hn-a-original-imaeq7zqeghpmpnw.jpeg'),
+(4, '1', 'Sony PS4 1 TB  (Jet Black, Extra Dual Shock 4 Controller)', '1 PS4 Console, 2 Controllers, Connecting Cables, Manual', '2019-12-02', '0', '1000', '381', 'http://localhost/php/ecom_ci_angular/uploads/product_image/1-ps4-sony-na-original-imafgxcny6pp6zqm.jpeg'),
+(5, '2', 'Asus Core i3 7th Gen - (4 GB/1 TB HDD/Windows 10 Home) X540UA-GQ682T Laptop  (15.6 inch, Silver Gradient, 2 kg)', 'Pre-installed Genuine Windows 10 OS 15.6 inch HD LCD Anti-glare Display', '2019-12-02', '0', '1000', '335', 'http://localhost/php/ecom_ci_angular/uploads/product_image/asus-na-laptop-original-imafccy6gshnz6ct.jpeg');
 
 -- --------------------------------------------------------
 
@@ -342,25 +352,10 @@ CREATE TABLE `settings` (
 
 INSERT INTO `settings` (`settings_id`, `type`, `description`) VALUES
 (1, 'system_name', 'Web Programming Test v2'),
-(2, 'system_title', 'Web Programming Test v2'),
+(2, 'system_title', 'Ecom with angular & codegniter'),
 (3, 'address', 'Dalanwala Deharadun'),
 (4, 'phone', '9648734414'),
 (6, 'system_email', 'order@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaction`
---
-
-CREATE TABLE `transaction` (
-  `transaction_id` int(11) NOT NULL,
-  `amount` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `type` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `order` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `about` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `date` longtext COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -409,12 +404,6 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`settings_id`);
 
 --
--- Indexes for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`transaction_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -423,41 +412,44 @@ ALTER TABLE `transaction`
 --
 ALTER TABLE `admin`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
   MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `language`
 --
 ALTER TABLE `language`
-  MODIFY `phrase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `phrase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
+
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
   MODIFY `settings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `transaction`
---
-ALTER TABLE `transaction`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -20,15 +20,7 @@ foreach($product_info as $row):?>
 				<td><?php echo get_phrase('category');?></td>
 				<td><b><?php echo $this->crud_model->get_type_name_by_id('category',$row['category']);?></b></td>
 			</tr>
-			<?php endif;?>
-			
-			
-			<?php if($row['type'] != ''):?>
-			<tr>
-				<td><?php echo get_phrase('type');?></td>
-				<td><b><?php echo $this->crud_model->get_type_name_by_id('type',$row['type']);?></b></td>
-			</tr>
-			<?php endif;?>	
+			<?php endif;?>					
 
 
 			<?php if($row['description'] != ''):?>
@@ -52,6 +44,14 @@ foreach($product_info as $row):?>
 				<td><b><?php echo $row['creation_date'];?></b></td>
 			</tr>
 			<?php endif;?>	
+			
+			<?php 
+			if(isset($row['product_image']) && !empty($row['product_image'])){?>
+			<tr>
+				<td><?php echo get_phrase('product_image');?></td>
+				<td><img class="img-responsive" src="<?php echo $row['product_image']; ?>" style="width:40px hieght:40px;"/></td>
+			</tr>				
+			<?php }?>
 
 
         	

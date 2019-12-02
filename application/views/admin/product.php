@@ -1,3 +1,8 @@
+<style>
+div.uploader {
+	width:15% !important;
+}
+</style>
 <div class="box">
 	<div class="box-header">
     
@@ -131,6 +136,13 @@
 								<label class="control-label"><?php echo get_phrase('creation_date');?></label>
 								<div class="controls">
 									<input type="date" class="validate[required]" name="creation_date"/>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label"><?php echo get_phrase('image');?></label>
+								<div class="controls">
+									<input type="file" class="validate[required]" name="product_image" />
 								</div>
 							</div>
 

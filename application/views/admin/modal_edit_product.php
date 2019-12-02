@@ -58,6 +58,22 @@
 									<input type="date" class="" name="creation_date" value="<?php echo $row['creation_date'];?>"/>
 								</div>
 							</div>
+							
+							<div class="control-group">
+								<label class="control-label"><?php echo get_phrase('image');?></label>
+								<div class="controls">
+									<input type="file" class="" name="product_image" style="width:80% !important;"/>
+								</div>
+							</div>
+							
+							<?php 
+							if(isset($row['product_image']) && !empty($row['product_image'])){?>
+								<div class="control-group">									
+									<div class="controls">
+										<img class="img-responsive" src="<?php echo $row['product_image']; ?>" style="width:40px hieght:40px;"/>
+									</div>
+								</div>
+							<?php }?>
 
 
                             

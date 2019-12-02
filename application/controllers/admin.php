@@ -3,11 +3,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*	
- *	@author : Md. Moinuddin Kadir , Joyonto Roy
- *	date	: 10 December, 2013
- *	University Of Dhaka, Bangladesh
- *	Bijoy Stock Inventory Manager Pro
- *	http://codecanyon.net/user/tanvirdu
+ *	@author : Jitendra
+ *	date	: 01 December, 2019
+ *	https://github.com/softjeetu/ecom_ci_angular
  */
 
 class Admin extends CI_Controller
@@ -241,6 +239,26 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect(base_url(), 'refresh');
         if ($param1 == 'create') {
+			
+			# product image
+            if(sizeof($_FILES['product_image']) > 0 && $_FILES['product_image']['error'] == 0){
+                $this->load->library('upload');
+                $config['upload_path']      = 'uploads/product_image';
+                $config['allowed_types']    = 'gif|jpg|jpeg|png';
+                /*$config['max_size'] = '1024';
+                $config['max_width'] = '200';
+                $config['max_height'] = '30';*/
+                $config['overwrite'] = true;
+                $this->upload->initialize($config);
+                if(!$this->upload->do_upload('product_image')){
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('message', $error);
+                    redirect(base_url() . 'index.php?admin/product/', 'refresh');
+                }
+                # data product image
+                $data['product_image'] = str_replace('index.php?/','',site_url($config['upload_path'].'/'.$this->upload->file_name));
+            }
+			
             $data['category']      = $this->input->post('category');
             $data['name']          = $this->input->post('name');            
             $data['description']   = $this->input->post('description');
@@ -252,6 +270,33 @@ class Admin extends CI_Controller
             redirect(base_url() . 'index.php?admin/product/', 'refresh');
         }
         if ($param1 == 'do_update') {
+			# product image
+            if(sizeof($_FILES['product_image']) > 0 && $_FILES['product_image']['error'] == 0){
+				
+				$_pdata = $this->db->limit(1)->get('product', array('product_id' => $param2))->row_array();
+				
+				if(isset($_pdata['product_image']) && !empty($_pdata['product_image'])){
+					unlink('./uploads/product_image/'.basename($_pdata['product_image']));
+				}
+				
+                $this->load->library('upload');
+                $config['upload_path']      = 'uploads/product_image';
+                $config['allowed_types']    = 'gif|jpg|jpeg|png';
+                /*$config['max_size'] = '1024';
+                $config['max_width'] = '200';
+                $config['max_height'] = '30';*/
+                $config['overwrite'] = true;
+                $this->upload->initialize($config);
+                if(!$this->upload->do_upload('product_image')){
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('message', $error);
+                    redirect(base_url() . 'index.php?admin/product/', 'refresh');
+                }
+                # data product image
+                $data['product_image'] = str_replace('index.php?/','',site_url($config['upload_path'].'/'.$this->upload->file_name));
+            }
+			
+			
             $data['category']      = $this->input->post('category');
             $data['name']          = $this->input->post('name');            
             $data['description']   = $this->input->post('description');
@@ -282,47 +327,7 @@ class Admin extends CI_Controller
     }
     
     
-    /****MANAGE transaction*****/
-    function transaction($param1 = '', $param2 = '', $param3 = '')
-    {
-        if ($this->session->userdata('admin_login') != 1)
-            redirect(base_url(), 'refresh');
-        if ($param1 == 'create') {
-            $data['amount'] = $this->input->post('amount');
-            $data['type']   = $this->input->post('type');
-            $data['order']  = $this->input->post('order');
-            $data['about']  = $this->input->post('about');
-            $data['date']   = $this->input->post('date');
-            $this->db->insert('transaction', $data);
-            redirect(base_url() . 'index.php?admin/transaction/', 'refresh');
-        }
-        if ($param1 == 'do_update') {
-            $data['amount'] = $this->input->post('amount');
-            $data['type']   = $this->input->post('type');
-            $data['order']  = $this->input->post('order');
-            $data['about']  = $this->input->post('about');
-            $data['date']   = $this->input->post('date');
-            $this->db->where('transaction_id', $param2);
-            $this->db->update('transaction', $data);
-            redirect(base_url() . 'index.php?admin/transaction/', 'refresh');
-        } else if ($param1 == 'personal_profile') {
-            $page_data['personal_profile']       = true;
-            $page_data['current_transaction_id'] = $param2;
-        } else if ($param1 == 'edit') {
-            $page_data['edit_data'] = $this->db->get_where('transaction', array(
-                'transaction_id' => $param2
-            ))->result_array();
-        }
-        if ($param1 == 'delete') {
-            $this->db->where('transaction_id', $param2);
-            $this->db->delete('transaction');
-            redirect(base_url() . 'index.php?admin/transaction/', 'refresh');
-        }
-        $page_data['transaction'] = $this->db->get('transaction')->result_array();
-        $page_data['page_name']   = 'transaction';
-        $page_data['page_title']  = get_phrase('manage_transaction');
-        $this->load->view('index', $page_data);
-    }
+    
     
     
     /*****SITE/SYSTEM SETTINGS*********/
