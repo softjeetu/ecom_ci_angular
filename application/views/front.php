@@ -14,12 +14,12 @@
 </head>
 <body>
     <!-- BEGIN #page-container -->
-    <div id="page-container" class="fade">
+    <div id="page-container" class="fade" ng-app="tendingItems" ng-controller="tendingItemsController" ng-init="loadProduct();fetchCart();">
         
 		<?php include 'front/common/header.php'; ?>
-    
+		<!--main ng-view-->
         <?php include 'front/'.$page_name.'.php'; ?>
-		
+		<!--/main-->
 		<?php include 'front/common/footer.php'; ?>
         
     </div>

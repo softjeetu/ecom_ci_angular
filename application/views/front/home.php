@@ -70,8 +70,8 @@
                 <!-- END section-title -->
             
                 <!-- BEGIN row -->
-				<form method="post">
-					<div class="row row-space-10" ng-app="tendingItems" ng-controller="tendingItemsController" ng-init="loadProduct()">
+				<?php echo form_open();?>				
+					<div class="row row-space-10">
 						<!-- BEGIN col-2 -->
 						<div class="col-md-3 col-sm-6" ng-repeat = "product in products">
 							<!-- BEGIN item -->
@@ -93,7 +93,7 @@
 						</div>
 						<!-- END col-2 -->                    
 					</div>
-				</form>
+				<?php echo form_close();?>
                 <!-- END row -->
             </div>
             <!-- END container -->
@@ -186,33 +186,4 @@
         </div>
         <!-- END #subscribe -->
 		
-		<script>
-		// https://www.webslesson.info/2018/08/create-shopping-cart-application-using-angularjs-with-php.html
-		var app = angular.module('tendingItems', []);
-
-		app.controller('tendingItemsController', function($scope, $http){
-		 
-		$scope.loadProduct = function(){		 			
-			$http({
-				method: 'get', 
-				url: '<?php echo base_url(); ?>index.php?/front/trending_items'
-			}).then(function (response) {
-				console.log(response, 'res');
-				$scope.products = response.data;
-			},function (error){
-				console.log(error, 'can not get data.');
-			});
-		 };
-		 
-		$scope.addtoCart = function(product){
-		$http({
-					method:"POST",
-					url:"<?php echo base_url(); ?>index.php?/front/add_to_cart",
-					data:product
-				}).success(function(data){
-					$scope.fetchCart();
-				});
-		 };
-		 
-		});
-		</script>
+		

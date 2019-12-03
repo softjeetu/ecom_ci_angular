@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'order_management_system';
+$config['encryption_key'] = 'ecom_in_CI_and_angular';
 
 /*
 |--------------------------------------------------------------------------
@@ -293,9 +293,9 @@ $config['global_xss_filtering'] = TRUE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-$config['csrf_protection'] = TRUE;
+$config['csrf_protection'] = false;
 $config['csrf_token_name'] = 'authenticity_token';
-$config['csrf_cookie_name'] = 'bijoy_order_management_system_pro';
+$config['csrf_cookie_name'] = 'ecom_in_ci_and_angular';
 $config['csrf_expire'] = 7200;
 
 /*
