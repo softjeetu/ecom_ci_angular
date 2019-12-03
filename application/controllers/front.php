@@ -180,7 +180,7 @@ class Front extends CI_Controller
 		
 		$_data = json_decode(file_get_contents("php://input"));
 		
-		if ($this->session->userdata('admin_login') != 1){
+		if ($this->session->userdata('client_login') != 1){
 			exit(json_encode(array('error' => 'not_logged_in')));
 		}
 		else{

@@ -119,10 +119,10 @@
 				   data:{'act':'checkout'}
 				}).then(function(response){
 					if(response.error == "not_logged_in"){
-						
+						alert("Work in Progress");
 					}
 					else{
-						
+						alert("Work in Progress");
 					}
 				},function (error){
 					console.log(error, 'can not post data.');

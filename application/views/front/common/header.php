@@ -133,10 +133,15 @@
 			<div class="modal-content">
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title">Delete confirmation</h4>
+				<h4 class="modal-title">Login</h4>
 			  </div>
 			  <div class="modal-body">
-				<p>Are you sure?</p>
+				<!-- Login Form -->
+				<form>
+				  <input type="text" id="login" class="form-control" name="email" placeholder="email">
+				  <input type="password" id="password" class="form-control" name="password" placeholder="password">
+				  <input type="submit" class="btn btn-success" value="Log In">
+				</form>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">No</button>
