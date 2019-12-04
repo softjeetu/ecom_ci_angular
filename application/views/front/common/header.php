@@ -47,7 +47,7 @@
 								$categories = $this->db->get('category')->result_array();
 								if(sizeof($categories) > 0):
 									foreach($categories as $category):?>
-                                <li><a href="#!category/<?php echo str_replace(' ', '_', strtolower($category['name'])); ?>" ng-click="filterCategory(<?php echo $category['category_id']; ?>)"><?php echo $category['name']; ?></a></li>
+                                <li><a href="javascript:;" ng-click="filterCategory(<?php echo $category['category_id']; ?>)"><?php echo $category['name']; ?></a></li>
                                 <?php endforeach; 
 								endif;?>
 								<li>
@@ -128,7 +128,8 @@
         <!-- END #header -->
 		
 		<!-- Confirmation Dialog -->
-		<div class="modal" modal="loginModal" ng-show="loginModal">
+		<button class="btn btn-primary btn-lg loginMMM" ng-click="showModal = !showModal" style="display:none;"></button>
+		<div class="modal" ng-init="showModal=false" id="login_modal" modal="showModal" ng-show="showModal">
 		  <div class="modal-dialog">
 			<div class="modal-content">
 			  <div class="modal-header">
@@ -143,9 +144,8 @@
 				  <input type="submit" class="btn btn-success" value="Log In">
 				</form>
 			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">No</button>
-				<button type="button" class="btn btn-primary" ng-click="ok()">Yes</button>
+			  <div class="modal-footer">				
+				<button type="button" class="btn btn-primary" ng-click="showModal=false">Close</button>
 			  </div>
 			</div>
 		  </div>

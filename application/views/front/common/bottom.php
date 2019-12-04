@@ -117,15 +117,32 @@
 				   method:"POST",
 				   url:"<?php echo base_url(); ?>index.php?/front/checkout",
 				   data:{'act':'checkout'}
-				}).then(function(response){
-					if(response.error == "not_logged_in"){
-						alert("Work in Progress");
+				}).then(function(response){console.log(response.data.error);
+					if(response.data.error == "not_logged_in"){
+						//alert("Work in Progress");
+						window.location.href = '<?php echo base_url(); ?>index.php?/front/login';
 					}
 					else{
-						alert("Work in Progress");
+						window.location.href = '<?php echo base_url(); ?>index.php?/front/checkout';
 					}
 				},function (error){
 					console.log(error, 'can not post data.');
+				});
+			};
+			$scope.message = '';
+			$scope.userLogin = function(loginInfo){					
+				loginInfo.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';								
+				$http({
+						method:"POST",
+						url:"<?php echo base_url(); ?>index.php?/front/auth",
+						data:loginInfo
+				}).then(function(response){
+					if(response.data == 'login_failed'){
+						$scope.message = '<?php echo $this->session->flashdata("flash_message"); ?>';
+					}
+					else{
+						//window.location.reload();
+					}
 				});
 			};
 			

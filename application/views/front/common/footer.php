@@ -40,7 +40,7 @@
             <!-- BEGIN container -->
             <div class="container">
                 <div class="payment-method">
-                    <img src="../assets/img/payment/payment-method.png" alt="" />
+                    <img src="<?php echo base_url('template/front/img/payment/payment-method.png'); ?>" alt="payment" />
                 </div>
                 <div class="copyright">
                     Copyright &copy; <?php echo date("Y");?> <?php echo SYSTEM_NAME; ?>. All rights reserved.
