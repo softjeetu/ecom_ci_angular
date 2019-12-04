@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2019 at 02:23 PM
+-- Generation Time: Dec 04, 2019 at 02:54 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -84,8 +84,12 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`client_id`, `email`, `password`, `name`, `creation_date`, `phone`) VALUES
-(1, 'jitednra@gmail.com', '123456', 'Jitendra Kumar', '2014-12-12', '05221234567'),
-(2, 'jay@dev.com', '123456', 'jitendra', '2019-12-01', '9898989898');
+(1, 'jitendra@gmail.com', '123456', 'Jitendra Kumar', '2014-12-12', '05221234567'),
+(2, 'jay@dev.com', '123456', 'jitendra', '2019-12-01', '9898989898'),
+(3, 'jkumar@gmail.com', '12345678', 'jay kay', '', '9999999999'),
+(4, 'jkumar1@gmail.com', '123', 'jay kay', '', '9999999999'),
+(5, 'please@update.com', '123', 'JAY KAY', '', '9999999999'),
+(6, 'pleases@update.com', '12345', 'JAY KAY', '', '9999999999');
 
 -- --------------------------------------------------------
 
@@ -305,6 +309,13 @@ CREATE TABLE `order` (
   `rate` longtext COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`order_id`, `client`, `product`, `quantity`, `total_price`, `date`, `status`, `rate`) VALUES
+(2, '1', '4', '2', '762', '2019-12-04', 'pending', '381');
+
 -- --------------------------------------------------------
 
 --
@@ -330,9 +341,9 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`product_id`, `category`, `name`, `description`, `creation_date`, `quantity`, `quantity_unit`, `price`, `product_image`) VALUES
 (1, '3', 'Mouse', 'Optical Mouse wired', '2019-12-02', '0', '1000', '2', 'http://localhost/php/ecom_ci_angular/uploads/product_image/jim-corbett-tiger-national-park.jpg'),
 (2, '3', 'iPhone 6s Plus 16GB', 'Innovation isn’t always obvious to the eye, but look a little closer at iPhone 6s and you’ll find it’s been fundamentally improved. The enclosure is made from a new alloy of 7000 Series aluminum — the same grade used in the aerospace industry. The cover glass is the strongest, most durable glass used in any smartphone. And a new rose gold finish joins space gray, silver, and gold.', '2019-12-02', '0', '1000', '600', 'http://localhost/php/ecom_ci_angular/uploads/product_image/product-iphone-6s-plus.png'),
-(3, '3', 'Apple iPad Pro 32 GB 9.7 inch with Wi-Fi Only', '9.7 Retina display for stunning details 32 GB ROM can store upto 8000 photos 2 GB RAM | 32 GB ROM 24.64 cm (9.7 inch) Display 12 MP Primary Camera | 5 MP Front iOS 10 | Battery: Lithium Polymer Processor: A9X Chip 64-bit, Embedded M9 Co-processor', '2019-12-02', '0', '1000', '514', 'http://localhost/php/ecom_ci_angular/uploads/product_image/apple-mlmn2hn-a-original-imaeq7zqeghpmpnw.jpeg'),
-(4, '1', 'Sony PS4 1 TB  (Jet Black, Extra Dual Shock 4 Controller)', '1 PS4 Console, 2 Controllers, Connecting Cables, Manual', '2019-12-02', '0', '1000', '381', 'http://localhost/php/ecom_ci_angular/uploads/product_image/1-ps4-sony-na-original-imafgxcny6pp6zqm.jpeg'),
-(5, '2', 'Asus Core i3 7th Gen - (4 GB/1 TB HDD/Windows 10 Home) X540UA-GQ682T Laptop  (15.6 inch, Silver Gradient, 2 kg)', 'Pre-installed Genuine Windows 10 OS 15.6 inch HD LCD Anti-glare Display', '2019-12-02', '0', '1000', '335', 'http://localhost/php/ecom_ci_angular/uploads/product_image/asus-na-laptop-original-imafccy6gshnz6ct.jpeg');
+(3, '3', 'Apple iPad Pro 32 GB', '9.7 Retina display for stunning details 32 GB ROM can store upto 8000 photos 2 GB RAM | 32 GB ROM 24.64 cm (9.7 inch) Display 12 MP Primary Camera | 5 MP Front iOS 10 | Battery: Lithium Polymer Processor: A9X Chip 64-bit, Embedded M9 Co-processor', '2019-12-02', '0', '1000', '514', 'http://localhost/php/ecom_ci_angular/uploads/product_image/apple-mlmn2hn-a-original-imaeq7zqeghpmpnw.jpeg'),
+(4, '1', 'Sony PS4 1 TB', '1 PS4 Console, 2 Controllers, Connecting Cables, Manual', '2019-12-02', '0', '1000', '381', 'http://localhost/php/ecom_ci_angular/uploads/product_image/1-ps4-sony-na-original-imafgxcny6pp6zqm.jpeg'),
+(5, '2', 'Asus Core i3 7th Gen', 'Pre-installed Genuine Windows 10 OS 15.6 inch HD LCD Anti-glare Display', '2019-12-02', '0', '1000', '335', 'http://localhost/php/ecom_ci_angular/uploads/product_image/asus-na-laptop-original-imafccy6gshnz6ct.jpeg');
 
 -- --------------------------------------------------------
 
@@ -423,7 +434,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -435,7 +446,7 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product`

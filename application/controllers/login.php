@@ -29,8 +29,9 @@ class Login extends CI_Controller {
 		
 		if ($this->session->userdata('admin_login') == 1)
 			redirect(base_url() . 'index.php?admin/dashboard', 'refresh');
-		if ($this->session->userdata('client_login') == 1)
-			redirect(base_url() . 'index.php?client/dashboard', 'refresh');
+		if ($this->session->userdata('client_login') == 1){
+			redirect(base_url(), 'refresh');
+		}
 		
 		$config = array(
 			array(
@@ -56,7 +57,7 @@ class Login extends CI_Controller {
 		if ($this->session->userdata('admin_login') == 1)
 			redirect(base_url() . 'index.php?admin/dashboard', 'refresh');
 		if ($this->session->userdata('client_login') == 1)
-			redirect(base_url() . 'index.php?client/dashboard', 'refresh');
+			redirect(base_url(), 'refresh');
 		}
 		
 	}

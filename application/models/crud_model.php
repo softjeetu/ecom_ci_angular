@@ -71,29 +71,7 @@ class Crud_model extends CI_Model {
 		return $query->result_array();
 	}
 	
-	/////////GROUP/////////////
-	function get_group()
-	{
-		$query	=	$this->db->get('group' );
-		return $query->result_array();
-	}
-	function get_group_info($group_id)
-	{
-		$query	=	$this->db->get_where('group' , array('group_id' => $group_id));
-		return $query->result_array();
-	}
 	
-	/////////INVOICE/////////////
-	function get_invoice()
-	{
-		$query	=	$this->db->get('invoice' );
-		return $query->result_array();
-	}
-	function get_invoice_info($invoice_id)
-	{
-		$query	=	$this->db->get_where('invoice' , array('invoice_id' => $invoice_id));
-		return $query->result_array();
-	}
 	function get_orders_by_client($client_id)
 	{
 		$query	=	$this->db->get_where('order' , array('client' => $client_id));
@@ -109,17 +87,7 @@ class Crud_model extends CI_Model {
 	{
 		return	$this->db->get_where('order',array('order_id'=>$order_id))->row()->$field;
 	}
-	/////////MESSAGE/////////////
-	function get_message()
-	{
-		$query	=	$this->db->get('message' );
-		return $query->result_array();
-	}
-	function get_message_info($message_id)
-	{
-		$query	=	$this->db->get_where('message' , array('message_id' => $message_id));
-		return $query->result_array();
-	}
+	
 	
 	/////////ORDER/////////////
 	function get_order()
@@ -139,6 +107,15 @@ class Crud_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	
+	function get_products_by_category($category_id)
+	{
+		$query	=	$this->db->get_where('product' , array('category' => $category_id));
+		return $query->result_array();
+	}
+	
+	
+	
 	/////////PRODUCT/////////////
 	function get_product()
 	{
@@ -149,36 +126,7 @@ class Crud_model extends CI_Model {
 	{
 		$query	=	$this->db->get_where('product' , array('product_id' => $product_id));
 		return $query->result_array();
-	}
-	
-	/////////TRANSACTION/////////////
-	function get_transaction()
-	{
-		$query	=	$this->db->get('transaction' );
-		return $query->result_array();
-	}
-	function get_transaction_info($transaction_id)
-	{
-		$query	=	$this->db->get_where('transaction' , array('transaction_id' => $transaction_id));
-		return $query->result_array();
-	}
-	
-	/////////TYPE/////////////
-	function get_type()
-	{
-		$query	=	$this->db->get('type' );
-		return $query->result_array();
-	}
-	function get_type_info($type_id)
-	{
-		$query	=	$this->db->get_where('type' , array('type_id' => $type_id));
-		return $query->result_array();
-	}
-	function get_types_by_category($category_id)
-	{
-		$query	=	$this->db->get_where('type' , array('category' => $category_id));
-		return $query->result_array();
-	}
+	}	
 	
 }
 

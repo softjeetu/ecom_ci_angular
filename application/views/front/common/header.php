@@ -2,14 +2,15 @@
         <div id="top-nav" class="top-nav">
             <!-- BEGIN container -->
             <div class="container">
-                <div class="collapse navbar-collapse">                    
+                <div class="collapse navbar-collapse"> 
+					<a href="<?php echo base_url(); ?>index.php?/login" target="_blank" class="btn btn-link btn-xs pull-right">Admin Login</a>
                     <ul class="nav navbar-nav navbar-right">                        
                         <li><a target="_blank" href="https://www.facebook.com/Aaryajeet"><i class="fa fa-facebook f-s-14"></i></a></li>
                         <li><a target="_blank" href="https://twitter.com/softjeetu"><i class="fa fa-twitter f-s-14"></i></a></li>
                         <li><a target="_blank" href="https://www.instagram.com/jaykaypal/"><i class="fa fa-instagram f-s-14"></i></a></li>
-                        <li><a target="_blank" href="https://www.linkedin.com/in/jaykaypee"><i class="fa fa-linkedin f-s-14"></i></a></li>
-                        
+                        <li><a target="_blank" href="https://www.linkedin.com/in/jaykaypee"><i class="fa fa-linkedin f-s-14"></i></a></li>                        
                     </ul>
+					
                 </div>
             </div>
             <!-- END container -->
@@ -110,13 +111,28 @@
                                     </div>
                                 </div>
                             </li>
+							<?php if (!$this->session->userdata('client_login')){?>
                             <li class="divider"></li>
                             <li>
-                                <a href="#!login">
+                                <a href="<?php echo base_url().'index.php?/front/login'; ?>">
                                     <img src="<?php echo base_url('template/front/img/user/user-1.jpg');?>" class="user-img" alt="" />
                                     <span class="hidden-md hidden-sm hidden-xs">Login / Register</span>
                                 </a>
                             </li>
+							<?php }
+							else{?>
+							<li class="divider"></li>
+                            <li>
+								<a href="javascript:;">
+									<img src="<?php echo base_url('template/front/img/user/user-1.jpg');?>" class="user-img" alt="" />
+									<span class="hidden-md hidden-sm hidden-xs"><?php echo $this->session->userdata('name'); ?></span>
+								</a>    
+								
+                            </li>
+							<li>
+								<a href="<?php echo base_url().'index.php?/front/logout'; ?>">Logout</a>								
+                            </li>							
+							<?php }?>
                         </ul>
                     </div>
                     <!-- END header-nav -->
@@ -126,28 +142,3 @@
             <!-- END container -->
         </div>
         <!-- END #header -->
-		
-		<!-- Confirmation Dialog -->
-		<button class="btn btn-primary btn-lg loginMMM" ng-click="showModal = !showModal" style="display:none;"></button>
-		<div class="modal" ng-init="showModal=false" id="login_modal" modal="showModal" ng-show="showModal">
-		  <div class="modal-dialog">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title">Login</h4>
-			  </div>
-			  <div class="modal-body">
-				<!-- Login Form -->
-				<form>
-				  <input type="text" id="login" class="form-control" name="email" placeholder="email">
-				  <input type="password" id="password" class="form-control" name="password" placeholder="password">
-				  <input type="submit" class="btn btn-success" value="Log In">
-				</form>
-			  </div>
-			  <div class="modal-footer">				
-				<button type="button" class="btn btn-primary" ng-click="showModal=false">Close</button>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		<!-- End of Confirmation Dialog -->

@@ -38701,7 +38701,7 @@ function show_type(category_id)
 		}
   }
   
-function show_product(type_id)
+function show_product(category_id)
   {
 	  if (document.getElementById('test_page').value == "order")
 		{
@@ -38728,9 +38728,9 @@ function show_product(type_id)
 				  }
 				  catch(err){}
 			  }
-			  document.getElementById('type_id_'+type_id).style.display = 'block' ;
-			  document.getElementById('name_type_'+type_id).setAttribute("name" , "product") ;
-			  document.getElementById('name_type_'+type_id).setAttribute("required" , "required") ;
+			  document.getElementById('type_id_'+category_id).style.display = 'block' ;
+			  document.getElementById('name_type_'+category_id).setAttribute("name" , "product") ;
+			  document.getElementById('name_type_'+category_id).setAttribute("required" , "required") ;
 			  document.getElementById('quantity_unit').innerHTML = "" ;
 			  document.getElementById('total_price').innerHTML = '' ;
 			  document.getElementById('total_value').value = '' ;

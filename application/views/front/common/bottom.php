@@ -63,6 +63,19 @@
 					console.log(error, 'can not get data.');
 				});
 			};
+			
+			$scope.setTotals = function(){
+				var total = 0;
+				
+				for(var count = 0; count < $scope.carts.length; count++)
+				{
+				   var item = $scope.carts[count];
+				   
+				   total = parseFloat(total) + (parseInt(item.qty) * parseFloat(item.price));
+				}
+				
+				return parseFloat(total).toFixed(2);
+			};
 			 
 			$scope.addtoCart = function(product){				
 				product.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';				
@@ -115,7 +128,7 @@
 			$scope.checkout = function(){
 				$http({
 				   method:"POST",
-				   url:"<?php echo base_url(); ?>index.php?/front/checkout",
+				   url:"<?php echo base_url(); ?>index.php?/front/checkouts",
 				   data:{'act':'checkout'}
 				}).then(function(response){console.log(response.data.error);
 					if(response.data.error == "not_logged_in"){
@@ -137,62 +150,55 @@
 						url:"<?php echo base_url(); ?>index.php?/front/auth",
 						data:loginInfo
 				}).then(function(response){
-					if(response.data == 'login_failed'){
-						$scope.message = '<?php echo $this->session->flashdata("flash_message"); ?>';
+				
+					if(response.data.error == ''){
+						window.location.reload();
 					}
-					else{
-						//window.location.reload();
+					else{						
+						$scope.message = response.data.error;						
+						return;
 					}
 				});
 			};
 			
+			$scope.userRegister = function(userInfo){					
+				userInfo.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';								
+				$http({
+						method:"POST",
+						url:"<?php echo base_url(); ?>index.php?/front/registration",
+						data:userInfo
+				}).then(function(response){
+					console.log(response);
+					if(response.data.error == ''){
+						
+						window.location.href = '<?php echo base_url();?>';
+					}
+					else{						
+						$scope.message = response.data.error;						
+						return;
+					}
+				});
+			};
 			
-		 
-		});
-		
-		
-		/*var cartModule = angular.module('cartItems', []);
+			$scope.saveOrder = function(orderInfo){		
+				//console.log(orderInfo);
+				orderInfo.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';								
+				$http({
+						method:"POST",
+						url:"<?php echo base_url(); ?>index.php?/front/saveOrder",
+						data:orderInfo
+				}).then(function(response){
+					//console.log(response);
+					if(response.data.error == ''){						
+						window.location.href = '<?php echo base_url();?>';
+					}
+					else{						
+						$scope.message = response.data.error;						
+						return;
+					}
+				});
+			};
 
-		cartModule.controller('cartItemsController', function($scope, $http){		 			
-			
-			$scope.carts = [];
-			$scope.fetchCart = function(){				
-				$http({
-					method: 'get', 
-					url: '<?php echo base_url(); ?>index.php?/front/fetch_cart'
-				}).then(function (response) {
-					//console.log(response, 'res');
-					$scope.carts = response.data;					
-				},function (error){
-					console.log(error, 'can not get data.');
-				});
-			};
-			 
-			$scope.addtoCart = function(product){				
-				product.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';				
-				//console.log(product);
-				$http({
-						method:"POST",
-						url:"<?php echo base_url(); ?>index.php?/front/add_to_cart",
-						data:product
-				}).then(function(data){
-					$scope.fetchCart();
-				});
-			};
-			
-			$scope.removeItem = function(id){
-				$http({
-						method:"POST",
-						url:"<?php echo base_url(); ?>index.php?/front/remove_cart",
-						data:id
-				}).then(function(data){
-					$scope.fetchCart();
-				},function (error){
-					console.log(error, 'can not post data.');
-				});
-			};
-			
-			
-		 
-		});*/
+		});
+					
 		</script>

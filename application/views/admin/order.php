@@ -50,7 +50,7 @@
                                     <tr>
                                         <td><?php echo $count++;?></td>
 										<td><?php echo $this->crud_model->get_type_name_by_id('client',$row['client']);?></td>
-										<td><?php echo $this->crud_model->get_type_name_by_id('product',$row['product']); ?> (<?php echo $this->crud_model->get_type_name_by_id('type',$this->crud_model->get_type_name_by_id('product',$row['product'],'type')); ?>)</td>
+										<td><?php echo $this->crud_model->get_type_name_by_id('product',$row['product']); ?> (<?php echo $this->crud_model->get_type_name_by_id('category',$this->crud_model->get_type_name_by_id('product',$row['product'],'category')); ?>)</td>
                                         <td>$ <?php echo $row['rate']; ?> / <?php echo $this->crud_model->get_type_name_by_id('product',$row['product'],'quantity_unit'); ?></td>
 										<td><?php echo $row['quantity'];?> <?php echo $this->crud_model->get_type_name_by_id('product',$row['product'],'quantity_unit'); ?> (s)</td>
 										<td>$ <?php echo $row['total_price'];?></td>
@@ -108,7 +108,7 @@
 							<div class="control-group">
 								<label class="control-label"><?php echo get_phrase('category');?></label>
 								<div class="controls">
-									<select name="category" class="uniform" style="width:100%;" onchange="show_type(this.value)"  required>
+									<select name="category" class="uniform" style="width:100%;" onchange="show_product(this.value)"  required>
                                     	<option value=""><?php echo get_phrase('select a category');?></option>
                                     	<?php 
 										$category = $this->db->get('category')->result_array();
@@ -122,7 +122,7 @@
 								</div>
 							</div>
                             
-							<?php 
+							<?php /*
 							$category = $this->db->get('category')->result_array();
 							foreach($category as $row):
 							?>
@@ -143,20 +143,20 @@
 								</div>
 							</div>
 							<?php
-							endforeach;
+							endforeach;*/
 							?>
 
 							<?php 
-							$type = $this->db->get('type')->result_array();
-							foreach($type as $row):
+							$category = $this->db->get('category')->result_array();
+							foreach($category as $row):
 							?>
-							<div class="control-group" id="type_id_<?php echo $row['type_id'];?>" style="display:none;">
+							<div class="control-group" id="type_id_<?php echo $row['category_id'];?>" style="display:none;">
 								<label class="control-label"><?php echo get_phrase('product');?></label>
 								<div class="controls">
-									<select name="temp" id="name_type_<?php echo $row['type_id'];?>" class="uniform" style="width:100%;" onchange="show_price(this.value)">
+									<select name="temp" id="name_type_<?php echo $row['category_id'];?>" class="uniform" style="width:100%;" onchange="show_price(this.value)">
                                     	<option value=""><?php echo get_phrase('select a product');?></option>
                                     	<?php 
-										$product = $this->crud_model->get_products_by_type($row['type_id']);
+										$product = $this->crud_model->get_products_by_category($row['category_id']);
 										foreach($product as $row):
 										?>
                                     		<option value="<?php echo $row['product_id'];?>"><?php echo $row['name'];?></option>

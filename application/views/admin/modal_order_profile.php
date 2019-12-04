@@ -18,7 +18,7 @@ foreach($order_info as $row):?>
 			<?php if($row['product'] != ''):?>
 			<tr>
 				<td><?php echo get_phrase('product');?></td>
-				<td><b><?php echo $this->crud_model->get_type_name_by_id('product',$row['product']); ?> (<?php echo $this->crud_model->get_type_name_by_id('type',$this->crud_model->get_type_name_by_id('product',$row['product'],'type')); ?>)</b></td>
+				<td><b><?php echo $this->crud_model->get_type_name_by_id('product',$row['product']); ?> (<?php echo $this->crud_model->get_type_name_by_id('category',$this->crud_model->get_type_name_by_id('product',$row['product'],'category')); ?>)</b></td>
 			</tr>
 			<?php endif;?>	
 

@@ -50,87 +50,141 @@ class Front extends CI_Controller
         $this->load->view('front', $page_data);
     }
 	
+	
+	
 	/***login***/
     function login()
     {
-		$page_data['page_name']  = 'login';
-		$page_data['page_title'] = get_phrase('login');
-		$this->load->view('front', $page_data); 
+		if ($this->session->userdata('client_login') == 1){
+			redirect(base_url(), 'refresh');
+		}
+		else{
+			$page_data['page_name']  = 'login';
+			$page_data['page_title'] = "Login";
+			$this->load->view('front', $page_data); 
+		}
     }
+	
+	
+	/***register***/
+    function register()
+    {
+		if ($this->session->userdata('client_login') == 1){
+			redirect(base_url(), 'refresh');
+		}
+		else{
+			$page_data['page_name']  = 'register';
+			$page_data['page_title'] = "Register";
+			$this->load->view('front', $page_data); 
+		}
+    }
+	
+	
+	
+	function registration(){
+		$_data = json_decode(file_get_contents("php://input"));
+		
+		if(empty($_data) || empty($_data->email) || empty($_data->password)){
+			exit(json_encode(array('error' => 'Invalid data')));
+		}		
+		
+		if (!filter_var($_data->email, FILTER_VALIDATE_EMAIL)) {			
+			exit(json_encode(array('error' => $_data->email. " is not a valid email address")));
+		}
+		
+		if($_data->password != $_data->cofirm_password){
+			exit(json_encode(array('error' => "Password & Confirm Password did not match.")));
+		}
+		
+		if(empty($_data->name)){
+			exit(json_encode(array('error' => "Please enter full name.")));
+		}
+		
+		if(empty($_data->phone)){
+			exit(json_encode(array('error' => "Please enter phone.")));
+		}
+		
+		$email 		= $_data->email;
+		$password 	= $_data->password;
+		$name 		= $_data->name;
+		$phone 		= $_data->phone;
+		
+		
+		
+		$query = $this->db->get_where('client', array(
+			'email' => $email
+		));
+		#echo $this->db->last_query();die;
+		if ($query->num_rows() == 0) {
+			
+			$data = array(
+				'name' => $name,
+				'email' => $email,
+				'password' => $password,
+				'phone' => $phone
+			);
+			
+			$this->db->insert('client', $data);
+			$id = $this->db->insert_id();
+			
+			$q = $this->db->get_where('client', array(
+				'client_id' => $id
+			));
+			
+			
+			$row = $q->row_array();
+			$this->session->set_userdata('client_login', '1');
+			$this->session->set_userdata('login_type', 'client');
+			$this->session->set_userdata($row);		
+			exit(json_encode(array('error' => '', 'userdata' => $row)));
+		} 
+		else {			
+			exit(json_encode(array('error' => 'User already Exist.')));
+		}
+	}
+	
+	/*******LOGOUT FUNCTION *******/
+	function logout()
+	{
+		$this->session->unset_userdata();
+		$this->session->sess_destroy();		
+		redirect(base_url());
+	}
 	
 	/***auth***/
     function auth()
     {
 		$auth_data = json_decode(file_get_contents("php://input"));
 		
-		if(empty($auth_data)){
-			exit(json_encode(array('error' => 'Product data is empty')));
+		if(empty($auth_data) || empty($auth_data->email) || empty($auth_data->password)){
+			exit(json_encode(array('error' => 'Invalid Credentials')));
 		}
 		
-		echo "<pre>";
-		print_r($auth_data);die;
-		
-		$config = array(
-			array(
-				'field' => 'email',
-				'label' => 'Email',
-				'rules' => 'required|xss_clean|valid_email'
-			),
-			array(
-				'field' => 'password',
-				'label' => 'Password',
-				'rules' => 'required|xss_clean|callback__validate_login'
-			)
-		);
-		
-		
-		$this->form_validation->set_rules($config);
-		var_dump($this->form_validation->run());
-		$this->form_validation->set_message('_validate_login', ' Login failed!');
-		$this->form_validation->set_error_delimiters('<div class="alert alert-error">
-								<button type="button" class="close" data-dismiss="alert">×</button>', '</div>');
-		
-		echo "<pre>";
-		print_r(validation_errors());
-		die;
-		if ($this->form_validation->run() == FALSE) {
-			$page_data['page_name']  = 'login';
-			$page_data['page_title'] = get_phrase('login');
-			$this->load->view('front', $page_data);
-		} 
-		else {			
-			if ($this->session->userdata('client_login') == 1){
-				exit(json_encode($this->session->userdata()));
-			}
-			else{
-				exit(json_encode('login_failed'));
-			}
+		if (!filter_var($auth_data->email, FILTER_VALIDATE_EMAIL)) {			
+			exit(json_encode(array('error' => $email. " is not a valid email address")));
 		}
-        
-    }
-	
-	
-	/***validate login****/
-	function _validate_login($str)
-	{
+		
+		$email = $auth_data->email;
+		$password = $auth_data->password;
+		
+		
 		
 		$query = $this->db->get_where('client', array(
-			'email' => $this->input->post('email'),
-			'password' => $this->input->post('password')
+			'email' => $email,
+			'password' => $password
 		));
-		echo $this->db->last_query();die;
+		#echo $this->db->last_query();die;
 		if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			$this->session->set_userdata('client_login', '1');
 			$this->session->set_userdata('login_type', 'client');
 			$this->session->set_userdata($row);		
-			return TRUE;
+			exit(json_encode(array('error' => '', 'userdata' => $row)));
 		} 
-		else {
-			$this->session->set_flashdata('flash_message', get_phrase('login_failed'));			
-			return FALSE;
-		}
-	}
+		else {			
+			exit(json_encode(array('error' => 'Login Failed')));
+		}					
+    }
 
 	/***trending_items***/
     function trending_items()
@@ -255,7 +309,7 @@ class Front extends CI_Controller
 	}
 	
 	/***category_products***/
-	function checkout(){
+	function checkouts(){
 		
 		$_data = json_decode(file_get_contents("php://input"));
 		
@@ -265,6 +319,71 @@ class Front extends CI_Controller
 		else{
 			exit(json_encode(array('error' => 'logged_in')));
 		}			
+	}
+	
+	/*******checkout *******/
+	function checkout()
+	{
+		if (!$this->session->userdata('client_login')){
+			redirect(base_url().'index.php?/front/login', 'refresh');
+		}
+		else{
+			$page_data['page_name']  = 'checkout';
+			$page_data['page_title'] = "Checkout";
+			$this->load->view('front', $page_data);
+		}
+	}
+	
+	/***saveOrder***/
+	function saveOrder(){
+		$_data = json_decode(file_get_contents("php://input"));
+		
+		if(empty($_data) || sizeof($_data) == 0){
+			exit(json_encode(array('error' => 'Invalid data')));
+		}		
+		
+		$this->load->library('cart');
+		
+		$cart_data = $this->cart->contents();
+		
+		if(empty($cart_data)){
+			exit(json_encode(array('error' => 'Cart Empty')));
+		}
+		
+		
+		
+		foreach($cart_data as $cart){
+			
+		}
+		
+		
+		#echo $this->db->last_query();die;
+		if ($query->num_rows() == 0) {
+			
+			$data = array(
+				'name' => $name,
+				'email' => $email,
+				'password' => $password,
+				'phone' => $phone
+			);
+			
+			$this->db->insert('client', $data);
+			$id = $this->db->insert_id();
+			
+			$q = $this->db->get_where('client', array(
+				'client_id' => $id
+			));
+			
+			
+			$row = $q->row_array();
+			$this->session->set_userdata('client_login', '1');
+			$this->session->set_userdata('login_type', 'client');
+			$this->session->set_userdata($row);		
+			exit(json_encode(array('error' => '', 'userdata' => $row)));
+		} 
+		else {			
+			exit(json_encode(array('error' => 'User already Exist.')));
+		}		
 	}
 	
 }
