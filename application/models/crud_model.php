@@ -100,6 +100,12 @@ class Crud_model extends CI_Model {
 		$query	=	$this->db->get_where('order' , array('order_id' => $order_id));
 		return $query->result_array();
 	}
+
+	function get_order_slave_info($order_id)
+	{
+		$query	=	$this->db->get_where('order_slave' , array('order_master_id' => $order_id));
+		return $query->result_array();
+	}
 	
 	function get_products_by_type($type_id)
 	{

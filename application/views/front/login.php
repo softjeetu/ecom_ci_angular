@@ -9,7 +9,7 @@
 				<!-- BEGIN checkout-body -->
 				<div class="checkout-body">
 					<h4 class="checkout-title">Login</h4>
-					<div class="col-md-12" ng-show="message"><div class="alert alert-danger" role="alert"><a href="javascript:;" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div></div>
+					<div class="col-md-12" ng-show="message"><div class="alert alert-danger" role="alert"><a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{message}}</div></div>
 					<div class="form-group">
 						<label class="col-md-4 control-label">Email <span class="text-danger">*</span></label>
 						<div class="col-md-4">

@@ -122,6 +122,8 @@
 				   $scope.products = response.data;
 				},function (error){
 					console.log(error, 'can not post data.');
+				}).before(function(){
+					alert();
 				});
 			};
 			
@@ -181,14 +183,14 @@
 			};
 			
 			$scope.saveOrder = function(orderInfo){		
-				//console.log(orderInfo);
+				
 				orderInfo.<?php echo $this->security->get_csrf_token_name();?> = '<?php echo $this->security->get_csrf_hash();?>';								
 				$http({
 						method:"POST",
 						url:"<?php echo base_url(); ?>index.php?/front/saveOrder",
 						data:orderInfo
 				}).then(function(response){
-					//console.log(response);
+					console.log(response);
 					if(response.data.error == ''){						
 						window.location.href = '<?php echo base_url();?>';
 					}

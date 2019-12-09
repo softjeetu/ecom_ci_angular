@@ -81,7 +81,7 @@
 								</a>
 								<div class="item-info">
 									<h4 class="item-title">
-										<a href="javascript:;">{{product.name}}</a>
+										<a href="javascript:void(0);">{{product.name}}</a>
 									</h4>
 									<p class="item-desc">{{product.description}}</p>
 									<div class="item-price">${{product.price}}</div>   

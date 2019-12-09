@@ -350,39 +350,42 @@ class Front extends CI_Controller
 			exit(json_encode(array('error' => 'Cart Empty')));
 		}
 		
-		
-		
+		$total_price = 0;
 		foreach($cart_data as $cart){
-			
+			$total_price += $cart['subtotal'];
 		}
 		
+		$order_master_data = [
+			'client' => $this->session->userdata('client_id'),
+			'total_price' => $total_price,
+			'date'	=> date("Y-m-d H:i:s"),
+			'status' => 'approved'
+		];
 		
+					
 		#echo $this->db->last_query();die;
-		if ($query->num_rows() == 0) {
+		if (!empty($order_master_data)) {
 			
-			$data = array(
-				'name' => $name,
-				'email' => $email,
-				'password' => $password,
-				'phone' => $phone
-			);
-			
-			$this->db->insert('client', $data);
+					
+			$this->db->insert('order', $order_master_data);
 			$id = $this->db->insert_id();
 			
-			$q = $this->db->get_where('client', array(
-				'client_id' => $id
-			));
-			
-			
-			$row = $q->row_array();
-			$this->session->set_userdata('client_login', '1');
-			$this->session->set_userdata('login_type', 'client');
-			$this->session->set_userdata($row);		
-			exit(json_encode(array('error' => '', 'userdata' => $row)));
+			if($id){				
+				foreach($cart_data as $cart){
+					$order_slave_data = [];
+					$order_slave_data['order_master_id'] = $id;
+					$order_slave_data['product_id'] = $cart['id'];
+					$order_slave_data['quantity'] = $cart['qty'];
+					$order_slave_data['price'] = $cart['price'];
+					$order_slave_data['date'] = date("Y-m-d H:i:s");
+					$this->db->insert('order_slave', $order_slave_data);
+				}
+			}
+			$this->cart->destroy();					
+			exit(json_encode(array('error' => '', 'order_id' => $id)));
 		} 
 		else {			
-			exit(json_encode(array('error' => 'User already Exist.')));
+			exit(json_encode(array('error' => 'Some internal error.')));
 		}		
 	}
 	

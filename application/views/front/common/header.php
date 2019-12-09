@@ -43,12 +43,12 @@
                     <div class="header-nav">
                         <div class=" collapse navbar-collapse" id="navbar-collapse">
                             <ul class="nav">
-                                <li class="active"><a href="#!">Home</a></li>
+                                <li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
                                 <?php
 								$categories = $this->db->get('category')->result_array();
 								if(sizeof($categories) > 0):
 									foreach($categories as $category):?>
-                                <li><a href="javascript:;" ng-click="filterCategory(<?php echo $category['category_id']; ?>)"><?php echo $category['name']; ?></a></li>
+                                <li><a href="<?php echo base_url(); ?>" ng-click="filterCategory(<?php echo $category['category_id']; ?>)"><?php echo $category['name']; ?></a></li>
                                 <?php endforeach; 
 								endif;?>
 								<li>
@@ -95,7 +95,7 @@
                                                     <p class="price">${{cart.price}}</p>
                                                 </div>
                                                 <div class="cart-item-close">
-                                                    <a href="javascript:;" data-toggle="tooltip" data-title="Remove" name="remove_product" ng-click="removeItem(cart.rowid)">&times;</a>													
+                                                    <a href="javascript:void(0);" data-toggle="tooltip" data-title="Remove" name="remove_product" ng-click="removeItem(cart.rowid)">&times;</a>													
                                                 </div>
                                             </li>  
 											<li ng-hide="carts.length">No iterms in cart.</li>											
@@ -105,7 +105,7 @@
                                         <div class="row row-space-10">
                                             
                                             <div class="col-xs-12">
-                                                <a href="javascript:;" ng-click="checkout()" class="btn btn-inverse btn-block">Checkout</a>
+                                                <a href="#" ng-click="checkout()" class="btn btn-inverse btn-block">Checkout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
 							else{?>
 							<li class="divider"></li>
                             <li>
-								<a href="javascript:;">
+								<a href="javascript:void(0);">
 									<img src="<?php echo base_url('template/front/img/user/user-1.jpg');?>" class="user-img" alt="" />
 									<span class="hidden-md hidden-sm hidden-xs"><?php echo $this->session->userdata('name'); ?></span>
 								</a>    
