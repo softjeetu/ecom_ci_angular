@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2019 at 02:54 PM
+-- Generation Time: Dec 09, 2019 at 08:23 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `admin_id` int(11) NOT NULL,
-  `email` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `password` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `about` longtext COLLATE utf8_unicode_ci NOT NULL
+  `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `about` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `email`, `password`, `name`, `about`) VALUES
-(1, 'admin@gmail.com', '1234', '', '');
+(1, 'admin@gmail.com', '1234', 'Administrator', 'Having all rights');
 
 -- --------------------------------------------------------
 
@@ -51,8 +51,8 @@ INSERT INTO `admin` (`admin_id`, `email`, `password`, `name`, `about`) VALUES
 
 CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
-  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `about` longtext COLLATE utf8_unicode_ci NOT NULL
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `about` varchar(250) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -72,11 +72,11 @@ INSERT INTO `category` (`category_id`, `name`, `about`) VALUES
 
 CREATE TABLE `client` (
   `client_id` int(11) NOT NULL,
-  `email` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `password` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `creation_date` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `phone` longtext COLLATE utf8_unicode_ci NOT NULL
+  `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `creation_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `phone` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -84,12 +84,12 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`client_id`, `email`, `password`, `name`, `creation_date`, `phone`) VALUES
-(1, 'jitendra@gmail.com', '123456', 'Jitendra Kumar', '2014-12-12', '05221234567'),
-(2, 'jay@dev.com', '123456', 'jitendra', '2019-12-01', '9898989898'),
-(3, 'jkumar@gmail.com', '12345678', 'jay kay', '', '9999999999'),
-(4, 'jkumar1@gmail.com', '123', 'jay kay', '', '9999999999'),
-(5, 'please@update.com', '123', 'JAY KAY', '', '9999999999'),
-(6, 'pleases@update.com', '12345', 'JAY KAY', '', '9999999999');
+(1, 'jitendra@gmail.com', '123456', 'Jitendra Kumar', '2014-12-12 00:00:00', 2147483647),
+(2, 'jay@dev.com', '123456', 'jitendra', '2019-12-01 00:00:00', 2147483647),
+(3, 'jkumar@gmail.com', '12345678', 'jay kay', '2019-12-04 00:00:00', 2147483647),
+(4, 'jkumar1@gmail.com', '123', 'jay kay', '2019-12-04 00:00:00', 2147483647),
+(5, 'please@update.com', '123', 'JAY KAY', '2019-12-04 00:00:00', 2147483647),
+(6, 'pleases@update.com', '12345', 'JAY KAY', '2019-12-04 00:00:00', 2147483647);
 
 -- --------------------------------------------------------
 
@@ -300,21 +300,47 @@ INSERT INTO `language` (`phrase_id`, `phrase`, `english`) VALUES
 
 CREATE TABLE `order` (
   `order_id` int(11) NOT NULL,
-  `client` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `product` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `quantity` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `total_price` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `date` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `status` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `rate` longtext COLLATE utf8_unicode_ci NOT NULL
+  `client` int(11) NOT NULL,
+  `total_price` double(25,2) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` longtext COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`order_id`, `client`, `product`, `quantity`, `total_price`, `date`, `status`, `rate`) VALUES
-(2, '1', '4', '2', '762', '2019-12-04', 'pending', '381');
+INSERT INTO `order` (`order_id`, `client`, `total_price`, `date`, `status`) VALUES
+(3, 3, 716.00, '2019-12-09 07:32:51', 'approved'),
+(4, 1, 670.00, '2019-12-09 07:34:32', 'approved'),
+(5, 1, 670.00, '2019-12-09 07:34:58', 'approved'),
+(6, 1, 670.00, '2019-12-09 07:37:21', 'approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_slave`
+--
+
+CREATE TABLE `order_slave` (
+  `order_slave_id` int(11) NOT NULL,
+  `order_master_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(25,2) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_slave`
+--
+
+INSERT INTO `order_slave` (`order_slave_id`, `order_master_id`, `product_id`, `quantity`, `price`, `date`) VALUES
+(1, 3, 4, 1, '381.00', '2019-12-09 07:32:51'),
+(2, 3, 5, 1, '335.00', '2019-12-09 07:32:51'),
+(3, 4, 5, 2, '335.00', '2019-12-09 07:34:32'),
+(4, 5, 5, 2, '335.00', '2019-12-09 07:34:58'),
+(5, 6, 5, 2, '335.00', '2019-12-09 07:37:22');
 
 -- --------------------------------------------------------
 
@@ -324,13 +350,13 @@ INSERT INTO `order` (`order_id`, `client`, `product`, `quantity`, `total_price`,
 
 CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
-  `category` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `name` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `creation_date` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `quantity` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `quantity_unit` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `price` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `category` int(11) NOT NULL,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `creation_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `quantity` int(11) NOT NULL,
+  `quantity_unit` int(11) NOT NULL,
+  `price` double(25,2) NOT NULL,
   `product_image` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -339,11 +365,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `category`, `name`, `description`, `creation_date`, `quantity`, `quantity_unit`, `price`, `product_image`) VALUES
-(1, '3', 'Mouse', 'Optical Mouse wired', '2019-12-02', '0', '1000', '2', 'http://localhost/php/ecom_ci_angular/uploads/product_image/jim-corbett-tiger-national-park.jpg'),
-(2, '3', 'iPhone 6s Plus 16GB', 'Innovation isn’t always obvious to the eye, but look a little closer at iPhone 6s and you’ll find it’s been fundamentally improved. The enclosure is made from a new alloy of 7000 Series aluminum — the same grade used in the aerospace industry. The cover glass is the strongest, most durable glass used in any smartphone. And a new rose gold finish joins space gray, silver, and gold.', '2019-12-02', '0', '1000', '600', 'http://localhost/php/ecom_ci_angular/uploads/product_image/product-iphone-6s-plus.png'),
-(3, '3', 'Apple iPad Pro 32 GB', '9.7 Retina display for stunning details 32 GB ROM can store upto 8000 photos 2 GB RAM | 32 GB ROM 24.64 cm (9.7 inch) Display 12 MP Primary Camera | 5 MP Front iOS 10 | Battery: Lithium Polymer Processor: A9X Chip 64-bit, Embedded M9 Co-processor', '2019-12-02', '0', '1000', '514', 'http://localhost/php/ecom_ci_angular/uploads/product_image/apple-mlmn2hn-a-original-imaeq7zqeghpmpnw.jpeg'),
-(4, '1', 'Sony PS4 1 TB', '1 PS4 Console, 2 Controllers, Connecting Cables, Manual', '2019-12-02', '0', '1000', '381', 'http://localhost/php/ecom_ci_angular/uploads/product_image/1-ps4-sony-na-original-imafgxcny6pp6zqm.jpeg'),
-(5, '2', 'Asus Core i3 7th Gen', 'Pre-installed Genuine Windows 10 OS 15.6 inch HD LCD Anti-glare Display', '2019-12-02', '0', '1000', '335', 'http://localhost/php/ecom_ci_angular/uploads/product_image/asus-na-laptop-original-imafccy6gshnz6ct.jpeg');
+(1, 3, 'Mouse', 'Optical Mouse wired', '2019-12-02 00:00:00', 0, 1000, 2.00, 'http://localhost/php/ecom_ci_angular/uploads/product_image/jim-corbett-tiger-national-park.jpg'),
+(2, 3, 'iPhone 6s Plus 16GB', 'Innovation isn’t always obvious to the eye, but look a little closer at iPhone 6s and you’ll find it’s been fundamentally improved. The enclosure is made from a new alloy of 7000 Series aluminum — the same grade used in the aerospace industry. The cover glass is the strongest, most durable glass used in any smartphone. And a new rose gold finish joins space gray, silver, and gold.', '2019-12-02 00:00:00', 0, 1000, 600.00, 'http://localhost/php/ecom_ci_angular/uploads/product_image/product-iphone-6s-plus.png'),
+(3, 3, 'Apple iPad Pro 32 GB', '9.7 Retina display for stunning details 32 GB ROM can store upto 8000 photos 2 GB RAM | 32 GB ROM 24.64 cm (9.7 inch) Display 12 MP Primary Camera | 5 MP Front iOS 10 | Battery: Lithium Polymer Processor: A9X Chip 64-bit, Embedded M9 Co-processor', '2019-12-02 00:00:00', 0, 1000, 514.00, 'http://localhost/php/ecom_ci_angular/uploads/product_image/apple-mlmn2hn-a-original-imaeq7zqeghpmpnw.jpeg'),
+(4, 1, 'Sony PS4 1 TB', '1 PS4 Console, 2 Controllers, Connecting Cables, Manual', '2019-12-02 00:00:00', 0, 1000, 381.00, 'http://localhost/php/ecom_ci_angular/uploads/product_image/1-ps4-sony-na-original-imafgxcny6pp6zqm.jpeg'),
+(5, 2, 'Asus Core i3 7th Gen', 'Pre-installed Genuine Windows 10 OS 15.6 inch HD LCD Anti-glare Display', '2019-12-02 00:00:00', 0, 1000, 335.00, 'http://localhost/php/ecom_ci_angular/uploads/product_image/asus-na-laptop-original-imafccy6gshnz6ct.jpeg');
 
 -- --------------------------------------------------------
 
@@ -353,8 +379,8 @@ INSERT INTO `product` (`product_id`, `category`, `name`, `description`, `creatio
 
 CREATE TABLE `settings` (
   `settings_id` int(11) NOT NULL,
-  `type` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `description` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `type` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -403,6 +429,12 @@ ALTER TABLE `order`
   ADD PRIMARY KEY (`order_id`);
 
 --
+-- Indexes for table `order_slave`
+--
+ALTER TABLE `order_slave`
+  ADD PRIMARY KEY (`order_slave_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -446,7 +478,13 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `order_slave`
+--
+ALTER TABLE `order_slave`
+  MODIFY `order_slave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product`
