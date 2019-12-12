@@ -146,7 +146,7 @@ class Front extends CI_Controller
 	/*******LOGOUT FUNCTION *******/
 	function logout()
 	{
-		$this->session->unset_userdata();
+		$this->session->unset_userdata('client_login');
 		$this->session->sess_destroy();		
 		redirect(base_url());
 	}

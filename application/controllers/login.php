@@ -121,7 +121,7 @@ class Login extends CI_Controller {
 	/*******LOGOUT FUNCTION *******/
 	function logout()
 	{
-		$this->session->unset_userdata();
+		$this->session->unset_userdata('admin_login');
 		$this->session->sess_destroy();
 		$this->session->set_flashdata('logout_notification', 'logged_out');
 		redirect(base_url() . 'index.php?login', 'refresh');

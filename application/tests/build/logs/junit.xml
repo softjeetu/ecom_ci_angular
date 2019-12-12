@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Crud_model_test" file="E:\xampp\htdocs\php\ecom_ci_angular\application\tests\models\Crud_model_test.php" fullPackage="Crud.model" tests="2" assertions="2" failures="0" errors="0" time="0.082376">
+    <testcase name="test_get_admin" class="Crud_model_test" file="E:\xampp\htdocs\php\ecom_ci_angular\application\tests\models\Crud_model_test.php" line="14" assertions="1" time="0.043205"/>
+    <testcase name="test_get_admin_name" class="Crud_model_test" file="E:\xampp\htdocs\php\ecom_ci_angular\application\tests\models\Crud_model_test.php" line="27" assertions="1" time="0.039171"/>
+  </testsuite>
+</testsuites>
